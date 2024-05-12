@@ -1,6 +1,6 @@
 
 
-export class FuzzyLogic {
+class FuzzyLogic {
     constructor(persediaan, permintaan, penerimaan) {
         var [a1, b1, c1] = persediaan
         var [a2, b2, c2] = permintaan
@@ -54,13 +54,11 @@ export class FuzzyLogic {
         }
         for (let key in penerimaan) {
             penerimaan[key] = this.rules.filter(e => e.penerimaan == key)
-            penerimaan[key].forEach(e => {
-                // print(e)
+            penerimaan[key].forEach(e => {                
                 let mu1 = this.fuzzySets['persediaan'][e['persediaan']](input1)
                 let mu2 = this.fuzzySets['permintaan'][e['permintaan']](input2)
                 mu[key].push(Math.min(mu1, mu2))
-            });
-            // print(mu)
+            });            
             this.alpha[key] = mu[key]
             this.alphaMax[key] = Math.max(...mu[key])
         }
@@ -134,13 +132,11 @@ export class FuzzyLogic {
     luasTrapesium = (alas, atas, t)=>(alas+atas)*t/2
 
     luas = () => {
-        var titik = this.titikPotong()
-        print(titik)
+        var titik = this.titikPotong()        
         var hasil = 0
         for(let i = 0; i < titik.length-1 ; i++){
             let z = [titik[i][0], titik[i+1][0]]
-            hasil += this.integral(x=> this.linear(x, titik[i], titik[i+1]), z)
-            print(['Luas ', titik[i], ' dan ', titik[i+1], ' = ', this.integral(x=> this.linear(x, titik[i], titik[i+1]), z)])
+            hasil += this.integral(x=> this.linear(x, titik[i], titik[i+1]), z)            
         }        
         return hasil
     }
@@ -211,7 +207,7 @@ export class FuzzyLogic {
 
 const print = (x) => console.log(x)
 
-export const rules = [{
+const rules = [{
     'persediaan': 'sedikit',
     'permintaan': 'sedikit',
     'penerimaan': 'sedikit'
@@ -258,4 +254,4 @@ export const rules = [{
 },]
 
 
-
+module.exports = {FuzzyLogic, rules}
